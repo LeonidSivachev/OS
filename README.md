@@ -1,14 +1,15 @@
 # OWN OPERATION SYSTEM
-## STRUCTURE
-### opt
-build of cross-compiler to compile from x86-64 to i686-elf
-### c_hw_kernel
+## kernel
 Hello world kernel that was wrote with cross-compiler  
-bin: directory for binary file of os  
-build: directory for object files  
-iso_result: directory with result disk image .iso  
 src: source file 
 builder: script to build project
-## USAGE
 ### to build iso
 ./builder
+## os
+kernel: sorce of os kernel
+libc: source of c libraury 
+### to build iso
+change in default-host.sh and default-compilerpath.sh path to cross-compiler
+./iso.sh
+### to clean
+./clean.sh (will delete all except src and shell scripts)
