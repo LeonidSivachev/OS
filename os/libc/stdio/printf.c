@@ -61,7 +61,28 @@ int printf(const char* restrict format, ...) {
 			if (!print(str, len))
 				return -1;
 			written += len;
-		} else {
+		} else if (*format == 'd') {
+			++format;
+			int n = va_arg(parameters, int);			
+			char num[20];
+			int i = -1;
+			if (n == 0) {
+				num[0] = '0';
+				i = 0;
+			}
+			while (n != 0) 
+			{
+				num[++i] = '0' + (n % 10);
+				n /= 10;
+			}
+			char c = '0';
+			for (; i >= 0; --i) {
+				print(num + i, sizeof(c));
+			}
+			// if (!print(&c, sizeof(c)))
+			// 	return -1;
+		 	++written;
+ 		} else {
 			format = format_begun_at;
 			size_t len = strlen(format);
 			if (maxrem < len) {
