@@ -19,7 +19,7 @@ header:
     // .long 3                               # Флаги консоли (1 + 2: консоль 
 
     # End tag
-    .short 0                              # Тип тега (0 — конец заголовка)
+    .short MULTIBOOT_TAG_TYPE_END         # Тип тега (0 — конец заголовка)
     .short 0                              # Флаги
     .long 8                               # Размер тега (8 байт)
 header_end:
