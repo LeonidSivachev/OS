@@ -4,6 +4,7 @@
 /*  How many bytes from the start of the file we search for the header. */
 #define MULTIBOOT_SEARCH                        32768
 #define MULTIBOOT_HEADER_ALIGN                  8
+#define MULTIBOOT2_ARCHITECTURE_I386 0  
 
 /*  The magic field should contain this. */
 #define MULTIBOOT2_HEADER_MAGIC                 0xe85250d6
@@ -66,4 +67,4 @@
 #define MULTIBOOT_CONSOLE_FLAGS_CONSOLE_REQUIRED 1
 #define MULTIBOOT_CONSOLE_FLAGS_EGA_TEXT_SUPPORTED 2
 
-#endif
+ #endif
