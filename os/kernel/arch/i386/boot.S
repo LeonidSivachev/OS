@@ -11,7 +11,8 @@
 // .long MAGIC
 // .long FLAGS
 // .long CHECKSUM
-# Multiboot2 constants
+//#include "multiboot.h"
+# Multiboot2 constants 0xe85250d6
 .set MULTIBOOT2_HEADER_MAGIC, 0xE85250D6  # Магическое число для Multiboot2
 .set MULTIBOOT2_ARCHITECTURE_I386, 0      # Архитектура (0 для i386)
 .set MULTIBOOT2_HEADER_LENGTH, header_end - header  # Длина заголовка
