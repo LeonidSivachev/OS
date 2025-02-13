@@ -62,8 +62,15 @@ $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
 .c.o:
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
-.S.o:
-	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+$(ARCHDIR)/boot.s: $(ARCHDIR)/boot.S $(ARCHDIR)/multiboot.h
+	$(CC) $(CPPFLAGS) -E $< -o $@
+
+$(ARCHDIR)/boot.o: $(ARCHDIR)/boot.s
+	$(AS) $< -o $@
+
+# .S.o:
+# 	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+
 
 clean:
 	rm -f myos.kernel
