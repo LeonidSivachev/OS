@@ -1,25 +1,11 @@
-// # Declare constants for the multiboot header.
-// .set ALIGN,    1<<0             # align loaded modules on page boundaries
-// .set MEMINFO,  1<<1             # provide memory map
-// .set FLAGS,    ALIGN | MEMINFO  # this is the Multiboot 'flag' field
-// .set MAGIC,    0x1BADB002       # 'magic number' lets bootloader find the header
-// .set CHECKSUM, -(MAGIC + FLAGS) # checksum of above, to prove we are multiboot
+#include "multiboot.h"
 
-// # Declare a header as in the Multiboot Standard.
-// .section .multiboot
-// .align 4
-// .long MAGIC
-// .long FLAGS
-// .long CHECKSUM
-# Multiboot2 constants
-.set MULTIBOOT2_HEADER_MAGIC, 0xE85250D6  # Магическое число для Multiboot2
-.set MULTIBOOT2_ARCHITECTURE_I386, 0      # Архитектура (0 для i386)
 .set MULTIBOOT2_HEADER_LENGTH, header_end - header  # Длина заголовка
 .set MULTIBOOT2_CHECKSUM, -(MULTIBOOT2_HEADER_MAGIC + MULTIBOOT2_ARCHITECTURE_I386 + MULTIBOOT2_HEADER_LENGTH)  # Контрольная сумма
 
 # Multiboot2 header
 .section .multiboot
-.align 8
+.align 8 
 header:
     .long MULTIBOOT2_HEADER_MAGIC         # Магическое число
     .long MULTIBOOT2_ARCHITECTURE_I386    # Архитектура
@@ -33,7 +19,7 @@ header:
     // .long 3                               # Флаги консоли (1 + 2: консоль 
 
     # End tag
-    .short 0                              # Тип тега (0 — конец заголовка)
+    .short MULTIBOOT_TAG_TYPE_END         # Тип тега (0 — конец заголовка)
     .short 0                              # Флаги
     .long 8                               # Размер тега (8 байт)
 header_end:
