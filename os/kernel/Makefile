@@ -54,16 +54,24 @@ $(ARCHDIR)/crtn.o \
 all: myos.kernel
 
 myos.kernel: $(OBJS) $(ARCHDIR)/linker.ld
+	@echo "myos.kernel"
 	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LINK_LIST)
 	grub-file --is-x86-multiboot2 myos.kernel
 
 $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
 	OBJ=`$(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=$(@F)` && cp "$$OBJ" $@
 
-# kernel/descriptor_tables.o : kernel/descriptor_tables.c #kernel/gdt_flush.S
-# 	@echo "descriptor_tables"
-# 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
-# 	@echo "end_descriptor_tables"
+kernel/descriptor_tables.o : kernel/descriptor_tables.c kernel/gdt_flush.s
+	@echo "descriptor_tables"
+	$(CC) -MD -c $< -o kernel/dt.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
+	$(CC) -MD -c kernel/gdt_flush.s -o kernel/gdt_flush.o $(CFLAGS) $(CPPFLAGS) -I.
+	$(CC) kernel/dt.o kernel/gdt_flush.o -o $@ $(CFLAGS) $(LINK_LIST)
+	@echo "end_descriptor_tables"
+
+# gcc -r -o output.o main.o func.o
+#kernel/kernel.o : kernel/descriptor_tables.o kernel/kernel.c
+#	$(CC) -MD -c kernel/kernel.c -o kernel/prekernel.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
+#	$(CC) -MD -r -c kernel/prekernel.o kernel/descriptor_tables.o -o kernel/kernel.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
 .c.o:
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
