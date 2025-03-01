@@ -3,7 +3,7 @@
 #include <kernel/tty.h>
 
 void kernel_main(void) {
-	//init_descriptor_tables();
+	init_descriptor_tables();
 	terminal_initialize();
 	printf("hello");
 }
