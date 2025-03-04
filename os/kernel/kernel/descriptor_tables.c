@@ -12,8 +12,6 @@
 // Предоставляет нам доступ к нашим ассемблерным функциям из нашего кода на C.
 extern void gdt_flush(uint32_t);
 
-//void gdt_flush(uint32_t) {}
-
 // Прототипы внешних функций.
 static void init_gdt();
 static void gdt_set_gate(int32_t,uint32_t,uint32_t,uint8_t,uint8_t);
@@ -35,7 +33,13 @@ static void init_gdt()
 {
    gdt_ptr.limit = (sizeof(gdt_entry_t) * 5) - 1;
    gdt_ptr.base  = (uint32_t)&gdt_entries;
-
+   /*
+   1) num номер десктриптора
+   2) base начальный адрес сегмента в виртуальной или физической памяти
+   3) limit размер сегмента
+   4) access байт доступа
+   5) gran определяет единицы измерения
+   */
    gdt_set_gate(0, 0, 0, 0, 0);                // Null segment
    gdt_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF); // Code segment
    gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF); // Data segment
