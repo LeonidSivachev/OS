@@ -37,7 +37,7 @@ $(ARCHDIR)/crtbegin.o \
 $(KERNEL_OBJS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
-kernel/descriptor_tables.o \
+#kernel/gdt/gdt.o \
 
 LINK_LIST=\
 $(LDFLAGS) \
@@ -54,45 +54,28 @@ $(ARCHDIR)/crtn.o \
 all: myos.kernel
 
 myos.kernel: $(OBJS) $(ARCHDIR)/linker.ld
-	@echo "myos.kernel"
 	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LINK_LIST)
 	grub-file --is-x86-multiboot2 myos.kernel
 
 $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
-	@echo "start_crtbegin.o_crtend.o"
 	OBJ=`$(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=$(@F)` && cp "$$OBJ" $@
-	@echo "end_crtbegin.o_crtend.o"
 
-kernel/descriptor_tables.o : kernel/descriptor_tables.c kernel/gdt_flush.s
-	@echo "descriptor_tables"
-	$(CC) -MD -c $< -o kernel/dt.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
-	@echo "1"
-	$(CC) -MD -c kernel/gdt_flush.s -o kernel/gdt_flush.o $(CFLAGS) $(CPPFLAGS) -I.
-#	$(CC) -nostdlib -r -o $@ kernel/dt.o kernel/gdt_flush.o
-	@echo "2"
-#	@echo "$(CC)"
-#   $(CC) kernel/dt.o kernel/gdt_flush.o -o $@ $(CFLAGS) $(LINK_LIST)
-#	$(CC) kernel/dt.o kernel/gdt_flush.o -o $@ $(CFLAGS) $(CPPFLAGS) -nostdlib
-	$(CC) -nostdlib -r -o $@ kernel/dt.o kernel/gdt_flush.o
-	@echo "end_descriptor_tables"
+kernel/gdt/gdt_flush.o: kernel/gdt/gdt_flush.s 
+	$(CC) -MD -c kernel/gdt/gdt_flush.s -o kernel/gdt/gdt_flush.o $(CFLAGS) $(CPPFLAGS) 
 
-# gcc -r -o output.o main.o func.o
-kernel/kernel.o : kernel/descriptor_tables.o kernel/kernel.c
-	@echo "kernel"
-	$(CC) -MD -c kernel/kernel.c -o kernel/prekernel.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
-#	$(CC) -MD -r kernel/prekernel.o kernel/descriptor_tables.o -o kernel/kernel.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
-	$(CC) -nostdlib -r -o kernel/kernel.o kernel/prekernel.o kernel/descriptor_tables.o
-	@echo "end_of_build_kernel"
+kernel/gdt/gdt.o : kernel/gdt/gdt.c kernel/gdt/gdt_flush.o
+	$(CC) -MD -c $< -o kernel/gdt/gdt_tmp.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
+	$(CC) -nostdlib -r -o $@ kernel/gdt/gdt_tmp.o kernel/gdt/gdt_flush.o
+
+kernel/kernel.o : kernel/gdt/gdt.o kernel/kernel.c
+	$(CC) -MD -c kernel/kernel.c -o kernel/kernel_tmp.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
+	$(CC) -nostdlib -r -o kernel/kernel.o kernel/kernel_tmp.o kernel/gdt/gdt.o
 
 .c.o:
-	@echo ".c.o"
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
-	@echo "finish_.c.o"
 
 .S.o:
-	@echo ".S.o"
 	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS) -I.
-	@echo "finish.S.o"
 
 clean:
 	rm -f myos.kernel

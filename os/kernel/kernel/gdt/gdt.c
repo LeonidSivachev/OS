@@ -1,13 +1,6 @@
-//
-// descriptor_tables.c - Инициализирует таблицы GDT и IDT и определяет
-// обработчик, используемый для ISR и IRQ по умолчанию.
-// Разработано на базе кода из руководства по разработке ядра – автор Bran.
-// Переписано для руководств по разработке ядра - автор James Molloy
-//
-
-//#include "common.h"
 #include <stdint.h>
-#include "kernel/descriptor_tables.h"
+#include <stdio.h>
+#include "kernel/gdt.h"
 
 // Предоставляет нам доступ к нашим ассемблерным функциям из нашего кода на C.
 extern void gdt_flush(uint32_t);
@@ -18,15 +11,13 @@ static void gdt_set_gate(int32_t,uint32_t,uint32_t,uint8_t,uint8_t);
 
 gdt_entry_t gdt_entries[5];
 gdt_ptr_t   gdt_ptr;
-//idt_entry_t idt_entries[256];
-//idt_ptr_t   idt_ptr; 
 
-// Подпрограмма инициализации - заносит нули во все подпрограммы, обслуживающие прерывания,
-// инициализирует таблицы GDT и IDT.
+// инициализирует GDT
 void init_descriptor_tables()
 {
    // Initialise the global descriptor table.
    init_gdt();
+   printf("successful GDT initialization!\n");
 }
 
 static void init_gdt()
