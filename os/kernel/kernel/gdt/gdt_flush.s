@@ -1,4 +1,4 @@
-.global gdt_flush  # Позволяет коду на C обращаться к gdt_flush()
+.global gdt_flush
 
 gdt_flush:
     mov 4(%esp),%eax # eax = gdt_ptr

@@ -37,7 +37,6 @@ $(ARCHDIR)/crtbegin.o \
 $(KERNEL_OBJS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
-#kernel/gdt/gdt.o \
 
 LINK_LIST=\
 $(LDFLAGS) \

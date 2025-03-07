@@ -2,10 +2,8 @@
 #include <stdio.h>
 #include "kernel/gdt.h"
 
-// Предоставляет нам доступ к нашим ассемблерным функциям из нашего кода на C.
 extern void gdt_flush(uint32_t);
 
-// Прототипы внешних функций.
 static void init_gdt();
 static void gdt_set_gate(int32_t,uint32_t,uint32_t,uint8_t,uint8_t);
 
@@ -40,7 +38,6 @@ static void init_gdt()
    gdt_flush((uint32_t)&gdt_ptr);
 }
 
-// Устанавливает значения для одной записи в GDT.
 static void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
 {
    gdt_entries[num].base_low    = (base & 0xFFFF);
