@@ -40,7 +40,10 @@ _start:
 	movl $stack_top, %esp
 
 	# Call the global constructors.
-	call _init
+	#call _init
+
+    pushl %ebx                # Адрес структуры multiboot_info
+    pushl %eax
 
 	# Transfer control to the main kernel.
 	call kernel_main
