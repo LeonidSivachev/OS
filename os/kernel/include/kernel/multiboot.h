@@ -1,4 +1,5 @@
 #ifndef MULTIBOOT_HEADER
+#include <stdint.h>
 #define MULTIBOOT_HEADER 1
 
 /*  How many bytes from the start of the file we search for the header. */
@@ -66,5 +67,31 @@
 
 #define MULTIBOOT_CONSOLE_FLAGS_CONSOLE_REQUIRED 1
 #define MULTIBOOT_CONSOLE_FLAGS_EGA_TEXT_SUPPORTED 2
+
+struct multiboot_tag {
+    uint32_t type;
+    uint32_t size;
+};
+
+struct multiboot_tag_with_data {
+    uint32_t type;
+    uint32_t size;
+    uint8_t data[];
+};
+
+struct multiboot_tag_basic_meminfo {
+    uint32_t type;
+    uint32_t size;
+    uint32_t mem_lower;
+    uint32_t mem_upper;
+};
+
+struct multiboot_tag_bootdev {
+    uint32_t type;        // Значение 5 для MULTIBOOT_TAG_TYPE_BOOTDEV
+    uint32_t size;        // Размер всей структуры в байтах
+    uint32_t biosdev;     // Номер загрузочного устройства BIOS
+    uint32_t slice;       // Номер раздела (partition)
+    uint32_t part;        // Номер вложенного раздела (sub-partition)
+};
 
 #endif

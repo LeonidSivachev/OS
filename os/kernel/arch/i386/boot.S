@@ -1,5 +1,5 @@
-#include "multiboot.h"
-
+.set MULTIBOOT2_HEADER_MAGIC, 0xE85250D6  # Магическое число для Multiboot2
+.set MULTIBOOT2_ARCHITECTURE_I386, 0   
 .set MULTIBOOT2_HEADER_LENGTH, header_end - header  # Длина заголовка
 .set MULTIBOOT2_CHECKSUM, -(MULTIBOOT2_HEADER_MAGIC + MULTIBOOT2_ARCHITECTURE_I386 + MULTIBOOT2_HEADER_LENGTH)  # Контрольная сумма
 
@@ -19,7 +19,7 @@ header:
     // .long 3                               # Флаги консоли (1 + 2: консоль 
 
     # End tag
-    .short MULTIBOOT_TAG_TYPE_END         # Тип тега (0 — конец заголовка)
+    .short 0       # Тип тега (0 — конец заголовка)
     .short 0                              # Флаги
     .long 8                               # Размер тега (8 байт)
 header_end:
