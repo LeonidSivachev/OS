@@ -47,6 +47,11 @@ $(LIBS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
 
+
+SOURCE_KERNEL_OBJ=\
+kernel/gdt/gdt.o \
+kernel/gdt/gdt_flush.o \
+
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
 
@@ -59,22 +64,18 @@ myos.kernel: $(OBJS) $(ARCHDIR)/linker.ld
 $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
 	OBJ=`$(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=$(@F)` && cp "$$OBJ" $@
 
-kernel/gdt/gdt_flush.o: kernel/gdt/gdt_flush.s 
-	$(CC) -MD -c kernel/gdt/gdt_flush.s -o kernel/gdt/gdt_flush.o $(CFLAGS) $(CPPFLAGS) 
-
-kernel/gdt/gdt.o : kernel/gdt/gdt.c kernel/gdt/gdt_flush.o
-	$(CC) -MD -c $< -o kernel/gdt/gdt_tmp.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
-	$(CC) -nostdlib -r -o $@ kernel/gdt/gdt_tmp.o kernel/gdt/gdt_flush.o
-
-kernel/kernel.o : kernel/gdt/gdt.o kernel/kernel.c
+kernel/kernel.o : kernel/kernel.c $(SOURCE_KERNEL_OBJ)
 	$(CC) -MD -c kernel/kernel.c -o kernel/kernel_tmp.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
-	$(CC) -nostdlib -r -o kernel/kernel.o kernel/kernel_tmp.o kernel/gdt/gdt.o
+	$(CC) -nostdlib -r -o kernel/kernel.o kernel/kernel_tmp.o $(SOURCE_KERNEL_OBJ)
 
 .c.o:
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
 .S.o:
 	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS) -I.
+
+.s.o:
+	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
 
 clean:
 	rm -f myos.kernel
