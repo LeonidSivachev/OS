@@ -120,6 +120,72 @@ void parse_multiboot2_tags(uint32_t* multiboot_info_addr) {
                 printf("--------------------------------------------------------------------------------");
                 break;
             }
+            case MULTIBOOT_TAG_TYPE_ACPI_OLD:
+            {
+                printf("%d) ", MULTIBOOT_TAG_TYPE_ACPI_OLD);
+                struct multiboot_tag_acpi* aspi_old_tag_ptr = ((struct multiboot_tag_acpi*) tag_ptr);
+                printf("MULTIBOOT_TAG_TYPE_ACPI_OLD\n");
+                printf("--------------------------------------------------------------------------------");
+                break;
+            }
+            case MULTIBOOT_TAG_TYPE_ACPI_NEW: // не отображается
+            {
+                printf("%d) ", MULTIBOOT_TAG_TYPE_ACPI_NEW);
+                struct multiboot_tag_acpi* aspi_new_tag_ptr = ((struct multiboot_tag_acpi*) tag_ptr);
+                printf("MULTIBOOT_TAG_TYPE_ACPI_NEW\n");
+                printf("--------------------------------------------------------------------------------");
+                break;
+            }
+            case MULTIBOOT_TAG_TYPE_NETWORK: // не отображается
+            {
+                printf("%d) ", MULTIBOOT_TAG_TYPE_NETWORK);
+                struct multiboot_tag_network*  network_tag_ptr = ((struct multiboot_tag_network*) tag_ptr);
+                printf("MULTIBOOT_TAG_TYPE_ACPI_NEW\n");
+                printf("--------------------------------------------------------------------------------");
+                break;
+            }
+            case MULTIBOOT_TAG_TYPE_EFI_MMAP: // не отображается
+            {
+                printf("%d) ", MULTIBOOT_TAG_TYPE_EFI_MMAP);
+                struct multiboot_tag_efi_mmap*  efi_mmap_tag_ptr = ((struct multiboot_tag_efi_mmap*) tag_ptr);
+                printf("MULTIBOOT_TAG_TYPE_EFI_MMAP\n");
+                printf("--------------------------------------------------------------------------------");
+                break;
+            }
+            case MULTIBOOT_TAG_TYPE_EFI_BS: // не отображается
+            {
+                printf("%d) ", MULTIBOOT_TAG_TYPE_EFI_BS);
+                struct multiboot_tag_efi_bs*  efi_bs_tag_ptr = ((struct multiboot_tag_efi_bs*) tag_ptr);
+                printf("MULTIBOOT_TAG_TYPE_EFI_BS\n");
+                printf("--------------------------------------------------------------------------------");
+                break;
+            }
+            case MULTIBOOT_TAG_TYPE_EFI32_IH: // не отображается
+            {
+                printf("%d) ", MULTIBOOT_TAG_TYPE_EFI32_IH);
+                struct multiboot_tag_efi32_ih*  efi32_ih_tag_ptr = ((struct multiboot_tag_efi32_ih*) tag_ptr);
+                printf("MULTIBOOT_TAG_TYPE_EFI32_IH\n");
+                printf("--------------------------------------------------------------------------------");
+                break;
+            }
+            case MULTIBOOT_TAG_TYPE_EFI64_IH: // не отображается
+            {
+                printf("%d) ", MULTIBOOT_TAG_TYPE_EFI64_IH);
+                struct multiboot_tag_efi64_ih*  efi64_ih_tag_ptr = ((struct multiboot_tag_efi64_ih*) tag_ptr);
+                printf("MULTIBOOT_TAG_TYPE_EFI64_IH\n");
+                printf("--------------------------------------------------------------------------------");
+                break;
+            }
+            case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
+            {
+                printf("%d) ", MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR);
+                struct multiboot_tag_load_base_addr*  load_base_addr_tag_ptr = ((struct multiboot_tag_load_base_addr*) tag_ptr);
+                printf("MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR\n");
+                printf("--------------------------------------------------------------------------------");
+                break;
+            }
+            
+            
         }
 
 
@@ -140,5 +206,7 @@ void kernel_main(uint32_t magic, uint32_t* multiboot_info_addr) {
         abort();
     }
     init_descriptor_tables();
-    parse_multiboot2_tags(multiboot_info_addr);
+    //parse_multiboot2_tags(multiboot_info_addr);
+    //printf("1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n");
+    // странная проблема с выводом
 }

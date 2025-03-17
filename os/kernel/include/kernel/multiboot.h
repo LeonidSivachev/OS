@@ -234,4 +234,52 @@ struct multiboot_tag_smbios {
     uint8_t reserved[6]; // Зарезервировано (заполняется нулями)
     uint8_t tables[0];   // Начало данных таблиц SMBIOS (переменной длины)
 };
+
+struct multiboot_tag_acpi {
+    uint32_t type;  // Тип тега (MULTIBOOT_TAG_TYPE_ACPI_OLD)
+    uint32_t size;  // Размер тега в байтах
+    uint32_t vaddr; // Виртуальный адрес таблицы ACPI
+};
+
+struct multiboot_tag_network {
+    uint32_t type;      // Тип тега (MULTIBOOT_TAG_TYPE_NETWORK)
+    uint32_t size;      // Размер тега в байтах
+    uint32_t reserved;  // Зарезервировано (обычно 0)
+    uint32_t flags;     // Флаги, определяющие состояние интерфейса (например, поддержка DHCP)
+    uint32_t type_of_device; // Тип сетевого устройства (например, Ethernet, Wi-Fi и т. д.)
+};
+
+struct multiboot_tag_efi_mmap {
+    uint32_t type;           // Тип тега (MULTIBOOT_TAG_TYPE_EFI_MMAP)
+    uint32_t size;           // Размер тега в байтах
+    uint32_t efi_mmap_addr;  // Адрес таблицы EFI Memory Map
+    uint32_t efi_mmap_size;  // Размер таблицы EFI Memory Map
+    uint32_t efi_mmap_desc_size;  // Размер одного элемента в таблице
+    uint32_t efi_mmap_desc_version; // Версия структуры дескриптора
+};
+
+struct multiboot_tag_efi_bs {
+    uint32_t type;              // Тип тега (MULTIBOOT_TAG_TYPE_EFI_BS)
+    uint32_t size;              // Размер тега в байтах
+    uint32_t efi_boot_services; // Адрес таблицы EFI Boot Services
+};
+
+struct multiboot_tag_efi32_ih {
+    uint32_t type;              // Тип тега (MULTIBOOT_TAG_TYPE_EFI32_IH)
+    uint32_t size;              // Размер тега в байтах
+    uint32_t efi32_image_handle; // 32-битный дескриптор изображения EFI
+};
+
+struct multiboot_tag_efi64_ih {
+    uint32_t type;              // Тип тега (MULTIBOOT_TAG_TYPE_EFI64_IH)
+    uint32_t size;              // Размер тега в байтах
+    uint64_t efi64_image_handle; // 64-битный дескриптор изображения EFI
+};
+
+struct multiboot_tag_load_base_addr {
+    uint32_t type;        // Тип тега (MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR)
+    uint32_t size;        // Размер тега в байтах
+    uint32_t load_base;   // Базовый адрес загрузки
+};
+
 #endif
