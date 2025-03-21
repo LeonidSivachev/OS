@@ -51,6 +51,7 @@ $(ARCHDIR)/crtn.o \
 SOURCE_KERNEL_OBJ=\
 kernel/gdt/gdt.o \
 kernel/gdt/gdt_flush.o \
+kernel/multiboot/multiboot.o \
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
