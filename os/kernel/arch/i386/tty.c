@@ -56,7 +56,7 @@ void terminal_shift()
 
 void terminal_putchar(char c) 
 {
-	if (terminal_row == VGA_HEIGHT) {
+	if (terminal_row >= VGA_HEIGHT) {
 		terminal_shift();
 	}
 	if (c == '\n') {
@@ -71,6 +71,20 @@ void terminal_putchar(char c)
 		}
 	}
 }
+
+// void terminal_putchar(char c)
+// {
+// 	if (terminal_column >= VGA_WIDTH) {
+// 		++terminal_row;
+// 		terminal_column = 0;
+// 	}
+// 	if (terminal_row >= VGA_HEIGHT) {
+// 		terminal_shift();
+// 	}
+// 	if (c == '\n') {
+
+// 	}
+// }
 
 void terminal_write(const char* data, size_t size) {
 	for (size_t i = 0; i < size; i++)
