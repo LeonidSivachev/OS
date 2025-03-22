@@ -70,11 +70,18 @@ void parse_multiboot2_tags(uint32_t* multiboot_info_addr, int32_t flag) {
                 struct multiboot_tag_mmap* mmap_tag_ptr = ((struct multiboot_tag_mmap*) tag_ptr);
                 printf("MULTIBOOT_TAG_TYPE_MMAP: %d, %d\n", mmap_tag_ptr->entry_size, mmap_tag_ptr->entry_version);
                 printf("entries:\n");
+
+                // Вычисляем количество записей
                 uint32_t entries_count = (mmap_tag_ptr->size - 16) / mmap_tag_ptr->entry_size;
+
+                // Указатель на текущую запись
                 struct multiboot_mmap_entry* entry = mmap_tag_ptr->entries;
+
+                // Цикл по всем записям
                 for (uint32_t i = 0; i < entries_count; i++) {
-                    printf("  %d: addr=%d, len=%d, type=%d\n",
-                           i, entry->addr, entry->len, entry->type);
+                    printf("  %d: addr=0x%l, len=0x%l, type=%d\n",
+                        i, entry->addr, entry->len, entry->type);
+                    // Смещаем указатель на следующую запись
                     entry = (struct multiboot_mmap_entry*)((uint8_t*)entry + mmap_tag_ptr->entry_size);
                 }
                 printf("--------------------------------------------------------------------------------");
