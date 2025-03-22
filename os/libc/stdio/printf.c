@@ -61,28 +61,78 @@ int printf(const char* restrict format, ...) {
 			if (!print(str, len))
 				return -1;
 			written += len;
-		} else if (*format == 'd') {
+		} else if (*format == 'd') { // int32_t
 			++format;
-			int n = va_arg(parameters, int);			
-			char num[20];
-			int i = -1;
+			int n = va_arg(parameters, int);
+			char num[11];
+			int i = 0;
+			int is_negative = 0;
+		
+			// Обрабатываем знак
+			if (n < 0) {
+				is_negative = 1;
+				n = -n;
+			}
+		
+			// Преобразуем число в строку
 			if (n == 0) {
-				num[0] = '0';
-				i = 0;
+				num[i++] = '0';
+			} else {
+				while (n != 0) {
+					num[i++] = '0' + (n % 10);
+					n /= 10;
+				}
 			}
-			while (n != 0) 
-			{
-				num[++i] = '0' + (n % 10);
-				n /= 10;
+		
+			// Добавляем знак, если нужно
+			if (is_negative) {
+				num[i++] = '-';
 			}
-			char c = '0';
-			for (; i >= 0; --i) {
-				print(num + i, sizeof(c));
+		
+			// Выводим в обратном порядке
+			for (int j = i - 1; j >= 0; j--) {
+				if (!print(&num[j], 1)) {
+					return -1;
+				}
 			}
-			// if (!print(&c, sizeof(c)))
-			// 	return -1;
-		 	++written;
- 		} else {
+			written += i; // Учитываем все символы
+		} else if (*format == 'l') {
+            format++; // Пропускаем 'l'
+            long long n = va_arg(parameters, long long);
+            char num[21]; // 20 символов достаточно для long long (включая знак), +1 для безопасности
+            int i = 0;
+            int is_negative = 0;
+
+            // Обрабатываем знак
+            if (n < 0) {
+                is_negative = 1;
+                n = -n;
+            }
+
+            // Преобразуем число в строку
+            if (n == 0) {
+                num[i++] = '0';
+            } else {
+                while (n != 0) {
+                    num[i++] = '0' + (n % 10);
+                    n /= 10;
+                }
+            }
+
+            // Добавляем знак, если нужно
+            if (is_negative) {
+                num[i++] = '-';
+            }
+
+            // Выводим в обратном порядке
+            for (int j = i - 1; j >= 0; j--) {
+                if (!print(&num[j], 1)) {
+                    return -1;
+                }
+            }
+            written += i; // Учитываем все символы 
+		
+		} else {
 			format = format_begun_at;
 			size_t len = strlen(format);
 			if (maxrem < len) {
