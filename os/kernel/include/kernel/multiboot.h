@@ -94,20 +94,18 @@ struct multiboot_tag_bootdev {
     uint32_t part;        // Номер вложенного раздела (sub-partition)
 };
 
-struct multiboot_mmap_entry {
-    uint64_t addr;    // Начальный физический адрес региона
-    uint64_t len;     // Длина региона в байтах
-    uint32_t type;    // Тип региона (см. ниже)
-    uint32_t zero;    // Зарезервировано, всегда 0
-};
-
 struct multiboot_tag_mmap {
-    uint32_t type;      // Тип тега, равен 6 (MULTIBOOT_TAG_TYPE_MMAP)
-    uint32_t size;      // Общий размер тега в байтах
-    uint32_t entry_size;// Размер одной записи в таблице карты памяти
-    uint32_t entry_version; // Версия формата записей (обычно 0)
-    struct multiboot_mmap_entry entries[0]; // Массив записей карты памяти
-};
+    uint32_t type;           // 6 для MMAP
+    uint32_t size;           // Общий размер тега
+    uint32_t entry_size;     // Размер одной записи
+    uint32_t entry_version;  // Версия формата
+    struct multiboot_mmap_entry {
+        uint64_t addr;       // Начальный адрес
+        uint64_t len;        // Длина участка
+        uint32_t type;       // Тип участка
+        uint32_t reserved;   // Зарезервировано
+    } entries[];
+} __attribute__((packed));
 
 struct vbe_info_block {
     char signature[4];           // "VESA"
