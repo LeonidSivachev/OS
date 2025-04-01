@@ -4,4 +4,4 @@ set -e
 
 qemu-system-$(./target-triplet-to-arch.sh $HOST) -cdrom myos.iso
 
-. ./clean.sh
+#. ./clean.sh
