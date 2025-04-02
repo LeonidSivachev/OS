@@ -10,10 +10,11 @@ static idtr_t idtr;
 static bool vectors[IDT_MAX_DESCRIPTORS];
 extern void* isr_stub_table[];
 
-__attribute__((noreturn)) void exception_handler(void);
+__attribute__((noreturn)) void exception_handler(uint32_t num, uint32_t error_code);
 static void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);
 
-void exception_handler() {
+void exception_handler(uint32_t num, uint32_t error_code) {
+    printf("EXCEPTION %d! ERROR: 0x%x\n", num, error_code);
     __asm__ volatile ("cli; hlt"); // Completely hangs the computer
 }
 

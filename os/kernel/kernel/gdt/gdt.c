@@ -9,14 +9,6 @@ static void gdt_set_gate(int32_t,uint32_t,uint32_t,uint8_t,uint8_t);
 gdt_entry_t gdt_entries[5];
 gdt_ptr_t   gdt_ptr;
 
-// инициализирует GDT
-// void init_descriptor_tables()
-// {
-//    // Initialise the global descriptor table.
-//    init_gdt();
-//    printf("successful GDT initialization!\n");
-// }
-
 void init_gdt()
 {
    gdt_ptr.limit = (sizeof(gdt_entry_t) * 5) - 1;

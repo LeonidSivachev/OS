@@ -17,4 +17,9 @@ void kernel_main(uint32_t magic, uint32_t* multiboot_info_addr) {
     init_idt();
     //printf("%d %d %d jfklajdsflkasj %l", 123, 456, -789, 0x1000000000);c
     parse_multiboot2_tags(multiboot_info_addr, 1 << MULTIBOOT_TAG_TYPE_MMAP);
+    int a = 0;
+    int b = 5;
+    volatile int c = b / a;
+    //asm volatile ("int $0");  // Явно вызвать исключение #0
+    printf("!!!");
 }
