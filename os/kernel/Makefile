@@ -52,6 +52,9 @@ SOURCE_KERNEL_OBJ=\
 kernel/gdt/gdt.o \
 kernel/gdt/gdt_flush.o \
 kernel/multiboot/multiboot.o \
+#kernel/idt/exeption_handler.o \
+#kernel/idt/idt.o \
+
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
@@ -68,6 +71,9 @@ $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
 kernel/kernel.o : kernel/kernel.c $(SOURCE_KERNEL_OBJ)
 	$(CC) -MD -c kernel/kernel.c -o kernel/kernel_tmp.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 	$(CC) -nostdlib -r -o kernel/kernel.o kernel/kernel_tmp.o $(SOURCE_KERNEL_OBJ)
+
+# kernel/idt/exeption_handler.s : kernel/idt/exeption_handler.o 
+# 	$(AC) -MD -c kernel/idt/exeption_handler.s -o kernel/idt/exeption_handler.o -g
 
 .c.o:
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
