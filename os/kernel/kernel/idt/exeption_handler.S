@@ -1,26 +1,31 @@
+/* 
+ * Обработчики прерываний для x86 (синтаксис GAS)
+ * Различие между исключениями с кодом ошибки и без
+ */
+
 .macro ISR_NOERR num
     .globl isr_stub_\num
     isr_stub_\num:
-        pushl $0
-        pushl $\num
+        pushl $0                     /* Пустой байт ошибки */
+        pushl $\num                  /* Номер прерывания */
         call exception_handler
-        addl $8, %esp
+        addl $8, %esp                /* Очистка стека */
         iret
 .endm
 
 .macro ISR_ERR num
     .globl isr_stub_\num
     isr_stub_\num:
-
-        pushl $\num
+        /* Код ошибки уже в стеке процессором */
+        pushl $\num                  /* Номер прерывания */
         call exception_handler
-        addl $8, %esp
+        addl $8, %esp                /* Очистка стека */
         iret
 .endm
 
 .extern exception_handler
 
-
+/* Генерация обработчиков */
 ISR_NOERR 0
 ISR_NOERR 1
 ISR_NOERR 2
@@ -54,7 +59,7 @@ ISR_NOERR 29
 ISR_ERR 30
 ISR_NOERR 31
 
-
+/* Таблица указателей на обработчики */
 .section .rodata
 .globl isr_stub_table
 isr_stub_table:
