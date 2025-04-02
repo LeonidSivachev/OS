@@ -21,4 +21,6 @@ struct gdt_ptr_struct
  __attribute__((packed));
 typedef struct gdt_ptr_struct gdt_ptr_t; 
 
-void init_descriptor_tables();
+//void init_descriptor_tables();
+
+void init_gdt();

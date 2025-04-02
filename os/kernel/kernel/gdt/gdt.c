@@ -4,21 +4,20 @@
 
 extern void gdt_flush(uint32_t);
 
-static void init_gdt();
 static void gdt_set_gate(int32_t,uint32_t,uint32_t,uint8_t,uint8_t);
 
 gdt_entry_t gdt_entries[5];
 gdt_ptr_t   gdt_ptr;
 
 // инициализирует GDT
-void init_descriptor_tables()
-{
-   // Initialise the global descriptor table.
-   init_gdt();
-   printf("successful GDT initialization!\n");
-}
+// void init_descriptor_tables()
+// {
+//    // Initialise the global descriptor table.
+//    init_gdt();
+//    printf("successful GDT initialization!\n");
+// }
 
-static void init_gdt()
+void init_gdt()
 {
    gdt_ptr.limit = (sizeof(gdt_entry_t) * 5) - 1;
    gdt_ptr.base  = (uint32_t)&gdt_entries;
@@ -36,6 +35,7 @@ static void init_gdt()
    gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
 
    gdt_flush((uint32_t)&gdt_ptr);
+   printf("successful GDT initialization!\n");
 }
 
 static void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
