@@ -15,7 +15,7 @@ export COMPILE=${COMPILE:-$(./default-compilerpath.sh)}
 #export CC=~/SysProject/opt/cross/bin/${HOST}-gcc
 
 export AR=${COMPILE}/${HOST}-ar
-export AS=${COMPILE}/${HOST}-as
+export AS=${COMPILE}/../../nasm/bin/nasm
 export CC=${COMPILE}/${HOST}-gcc
 
 export PREFIX=/usr

@@ -12,15 +12,11 @@ void kernel_main(uint32_t magic, uint32_t* multiboot_info_addr) {
         printf("incorrect_magic\n");
         abort();
     }
-    //parse_multiboot2_tags(multiboot_info_addr, 1 << MULTIBOOT_TAG_TYPE_MMAP);
     init_gdt();
     init_idt();
-    //printf("%d %d %d jfklajdsflkasj %l", 123, 456, -789, 0x1000000000);c
-    parse_multiboot2_tags(multiboot_info_addr, 1 << MULTIBOOT_TAG_TYPE_MMAP);
-    volatile int a = 0;
-    volatile int b = 5;
-    volatile int c = b / a;
-    //__asm__ volatile ("ud2"); 
-    //asm volatile ("int $0");  // Явно вызвать исключение #0
-    printf("!!!");
+    // parse_multiboot2_tags(multiboot_info_addr, 1 << MULTIBOOT_TAG_TYPE_MMAP);
+    // volatile a = 0;
+    // volatile int b = 5;
+    // volatile c = b / a;
+    // printf("if exception not happend!\n");
 }

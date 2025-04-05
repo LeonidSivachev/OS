@@ -52,16 +52,20 @@ SOURCE_KERNEL_OBJ=\
 kernel/gdt/gdt.o \
 kernel/gdt/gdt_flush.o \
 kernel/multiboot/multiboot.o \
-kernel/idt/exeption_handler.o \
 kernel/idt/idt.o \
+kernel/idt/exeptions.o \
+kernel/idt/ports.o \
+kernel/idt/pic.o \
+kernel/idt/keyboard/keyboard_handler.o \
 
+TEST_COMPILE_FILES=\
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
 
 all: myos.kernel
 
-myos.kernel: $(OBJS) $(ARCHDIR)/linker.ld
+myos.kernel: $(OBJS) $(ARCHDIR)/linker.ld $(TEST_COMPILE_FILES)
 	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LINK_LIST)
 	grub-file --is-x86-multiboot2 myos.kernel
 
@@ -80,6 +84,9 @@ kernel/kernel.o : kernel/kernel.c $(SOURCE_KERNEL_OBJ)
 
 .s.o:
 	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+
+%.o: %.asm
+	$(AS) -f elf32 $< -o $@
 
 clean:
 	rm -f myos.kernel
