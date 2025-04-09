@@ -40,12 +40,12 @@ void init_idt() {
     }
 
     PIC_remap(0x20, 0x28);
-    //idt_set_descriptor(0x21,(uintptr_t) keyboard_handler, 0x8E);
-    //vectors[0x21] = true;
-
+    idt_set_descriptor(0x21,(uintptr_t) keyboard_handler, 0x8E);
+    vectors[0x21] = true;
+    init_keyboard();
     __asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
     __asm__ volatile ("sti"); // set the interrupt flag
     //outb(0x60, 0x1E);
-    printf("successful IDT inicialization!\n");
+    //printf("successful IDT inicialization!\n");
 } 
 
