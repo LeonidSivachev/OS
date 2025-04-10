@@ -19,7 +19,11 @@ void keyboard_handler(void) {
     //printf("%d", inb(KEYBOARD_PORT));
 }
 
-int init_keyboard() {
+int init_keyboard()
+{
+    // if (inb(0x64) != 0x02) {
+    //     printf("keyboard_not_ready\n");
+    // }
     for (int i = 0; i < 1; ++i) {
         outb(KEYBOARD_PORT, 0xF4);
         if (inb(KEYBOARD_PORT) == 0xFA) {

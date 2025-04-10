@@ -20,4 +20,7 @@ void kernel_main(uint32_t magic, uint32_t* multiboot_info_addr) {
     // volatile int b = 5;
     // volatile c = b / a;
     // printf("if exception not happend!\n");
+    while (1) {
+        __asm__ volatile ("hlt");  // Остановка CPU, но с возможностью прерываний
+    }
 }

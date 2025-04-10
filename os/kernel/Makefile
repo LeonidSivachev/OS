@@ -2,7 +2,8 @@ DEFAULT_HOST!=../default-host.sh
 HOST?=DEFAULT_HOST
 HOSTARCH!=../target-triplet-to-arch.sh $(HOST)
 
-CFLAGS?=-O2 -g
+#CFLAGS?=-O2 -g 
+CFLAGS?=-O0 -g
 CPPFLAGS?=
 LDFLAGS?=
 LIBS?=
@@ -57,6 +58,7 @@ kernel/idt/exeptions.o \
 kernel/idt/ports.o \
 kernel/idt/pic.o \
 kernel/idt/keyboard/keyboard_handler.o \
+kernel/idt/keyboard/kbrd_handler.o \
 
 TEST_COMPILE_FILES=\
 

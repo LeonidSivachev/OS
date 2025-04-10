@@ -11,6 +11,7 @@ __attribute__((aligned(0x10))) static idt_entry_t idt[256];
 static idtr_t idtr;
 static bool vectors[IDT_MAX_DESCRIPTORS];
 extern void* isr_stub_table[];
+extern void kbrd_handler();
 
 __attribute__((noreturn)) void exception_handler(int32_t num, int32_t error_code);
 static void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);
@@ -40,12 +41,14 @@ void init_idt() {
     }
 
     PIC_remap(0x20, 0x28);
-    idt_set_descriptor(0x21,(uintptr_t) keyboard_handler, 0x8E);
+    //idt_set_descriptor(0x21,(uintptr_t) keyboard_handler, 0x8E);
+    idt_set_descriptor(0x21, kbrd_handler, 0x8E);
     vectors[0x21] = true;
     init_keyboard();
     __asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
     __asm__ volatile ("sti"); // set the interrupt flag
     //outb(0x60, 0x1E);
-    //printf("successful IDT inicialization!\n");
+    printf("successful_IDT_inicialization!\n");
+    //printf("%d\n", 0);
 } 
 
