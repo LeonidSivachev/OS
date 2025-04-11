@@ -7,18 +7,54 @@
 
 #define IDT_MAX_DESCRIPTORS 256
 
+static const char* exceptions[] = {
+    [0] = "Devide_error",
+    [1] = "Debug_exception",
+    [2] = "NMI_interrupt",
+    [3] = "Breakpoint",
+    [4] = "Overflow",
+    [5] = "Bound_range_exceed",
+    [6] = "Invalid_opcode",
+    [7] = "Devise_not_available",
+    [8] = "Double_fault",
+    [9] = "Copocessor_segment_overrun",
+    [10] = "Invalid_TSS",
+    [11] = "Segment_not_present",
+    [12] = "Stack_segment_fault",
+    [13] = "General_protection_fault",
+    [14] = "Page_fault",
+    [15] = "Intel_reserved",
+    [16] = "Math_fault",
+    [17] = "Aligment_check",
+    [18] = "Machine_check",
+    [19] = "SIMD_Floating_point_exception",
+    [20] = "Virtualization_exception",
+    [21] = "Control_protection_exception",
+    [22] = "Intel_reserved",
+    [23] = "Intel_reserved",
+    [24] = "Intel_reserved",
+    [25] = "Intel_reserved",
+    [26] = "Intel_reserved",
+    [27] = "Intel_reserved",
+    [28] = "Intel_reserved",
+    [29] = "Intel_reserved",
+    [30] = "Intel_reserved",
+    [31] = "Intel_reserved"
+};
+
 __attribute__((aligned(0x10))) static idt_entry_t idt[256];
 static idtr_t idtr;
 static bool vectors[IDT_MAX_DESCRIPTORS];
 extern void* isr_stub_table[];
 extern void kbrd_handler();
 
-__attribute__((noreturn)) void exception_handler(int32_t num, int32_t error_code);
+__attribute__((noreturn)) void exception_handler(int32_t num);
 static void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);
 
-void exception_handler(int32_t num, int32_t error_code) {
-    printf("EXCEPTION %d ERROR: %d\n", num, error_code);
+void exception_handler(int32_t num) {
+    printf("EXCEPTION: %s\n", exceptions[num]);
     __asm__ volatile ("cli; hlt");
+    //__asm__ volatile("hlt");
 }
 
 void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags) {
@@ -41,14 +77,12 @@ void init_idt() {
     }
 
     PIC_remap(0x20, 0x28);
-    //idt_set_descriptor(0x21,(uintptr_t) keyboard_handler, 0x8E);
+    //IRQ_clear_mask(0);
+    IRQ_clear_mask(1);
     idt_set_descriptor(0x21, kbrd_handler, 0x8E);
     vectors[0x21] = true;
     init_keyboard();
-    __asm__ volatile ("lidt %0" : : "m"(idtr)); // load the new IDT
-    __asm__ volatile ("sti"); // set the interrupt flag
-    //outb(0x60, 0x1E);
+    __asm__ volatile ("lidt %0" : : "m"(idtr));
+    __asm__ volatile ("sti");
     printf("successful_IDT_inicialization!\n");
-    //printf("%d\n", 0);
-} 
-
+}
