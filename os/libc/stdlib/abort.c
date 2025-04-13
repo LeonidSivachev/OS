@@ -4,7 +4,7 @@
 __attribute__((__noreturn__))
 void abort(void) {
 #if defined(__is_libk)
-	// TODO: Add proper kernel panic.
+	__asm__ volatile("cli; hlt");
 	printf("kernel: panic: abort()\n");
 #else
 	// TODO: Abnormally terminate the process as if by SIGABRT.
