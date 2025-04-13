@@ -27,13 +27,18 @@ void keyboard_handler(void)
     }
 
     uint8_t scancode = inb(KBRD_DATA_PORT);
-    
+
+    //printf("%d", scancode);
+
     if (scancode == 0xE0 || scancode == 0xF0) {
         PIC_sendEOI(1);
         return;
     }
 
-    if (scancode < sizeof(kbd_us_scancode_set2)) {
+    if (scancode == 0x66 || scancode == 0x0E) {
+        //printf("backspace!");
+        backspace();
+    } else if (scancode < sizeof(kbd_us_scancode_set2)) {
         char c = kbd_us_scancode_set2[scancode];
         if (c != 0) {
             putchar(c);

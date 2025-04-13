@@ -80,3 +80,15 @@ void terminal_write(const char* data, size_t size) {
 void terminal_writestring(const char* data) {
 	terminal_write(data, strlen(data));
 }
+
+void backspace() {
+	terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
+	if ((terminal_row != 0) || (terminal_column != 0)) {
+		if (terminal_column == 0) {
+			--terminal_row;
+			terminal_column = VGA_WIDTH - 1;
+		} else {
+			--terminal_column;
+		}
+	}
+}
