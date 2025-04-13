@@ -1,5 +1,6 @@
 #include <bool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "kernel/idt.h"
 #include "kernel/keyboard_handler.h"
@@ -53,8 +54,7 @@ static void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);
 
 void exception_handler(int32_t num) {
     printf("EXCEPTION: %s\n", exceptions[num]);
-    __asm__ volatile ("cli; hlt");
-    //__asm__ volatile("hlt");
+    abort();
 }
 
 void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags) {
