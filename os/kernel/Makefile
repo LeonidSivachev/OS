@@ -50,15 +50,15 @@ $(ARCHDIR)/crtn.o \
 
 
 SOURCE_KERNEL_OBJ=\
-kernel/gdt/gdt.o \
-kernel/gdt/gdt_flush.o \
+arch/i386/gdt/gdt.o \
+arch/i386/gdt/gdt_flush.o \
 kernel/multiboot/multiboot.o \
-kernel/idt/idt.o \
-kernel/idt/exeptions.o \
-kernel/idt/ports.o \
-kernel/idt/pic.o \
-kernel/idt/keyboard/keyboard_handler.o \
-kernel/idt/keyboard/kbrd_handler.o \
+arch/i386/idt/idt.o \
+arch/i386/idt/exeptions.o \
+arch/i386/idt/ports.o \
+arch/i386/idt/pic.o \
+arch/i386/idt/keyboard/keyboard_handler.o \
+arch/i386/idt/keyboard/kbrd_handler.o \
 
 TEST_COMPILE_FILES=\
 
@@ -94,6 +94,8 @@ clean:
 	rm -f myos.kernel
 	rm -f $(OBJS) *.o */*.o */*/*.o
 	rm -f $(OBJS:.o=.d) *.d */*.d */*/*.d
+	rm -f $(SOURCE_KERNEL_OBJ) *.o */*.o */*/*.o
+	rm -f $(SOURCE_KERNEL_OBJ:.o=.d) *.d */*.d */*/*.d
 
 install: install-headers install-kernel
 
