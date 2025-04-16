@@ -51,23 +51,21 @@ $(ARCHDIR)/boot/crtn.o \
 
 SOURCE_KERNEL_OBJ=\
 arch/i386/gdt/gdt.o \
-arch/i386/gdt/gdt_flush.o \
 kernel/multiboot/multiboot.o \
 arch/i386/idt/idt.o \
 arch/i386/idt/exeptions.o \
 arch/i386/idt/ports.o \
 arch/i386/idt/pic.o \
-arch/i386/idt/keyboard/keyboard_handler.o \
-arch/i386/idt/keyboard/kbrd_handler.o \
-
-TEST_COMPILE_FILES=\
+drivers/keyboard/kbrd.o \
+#arch/i386/idt/keyboard/keyboard_handler.o \
+#arch/i386/idt/keyboard/kbrd_handler.o \
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
 
 all: myos.kernel
 
-myos.kernel: $(OBJS) $(ARCHDIR)/boot/linker.ld $(TEST_COMPILE_FILES)
+myos.kernel: $(OBJS) $(ARCHDIR)/boot/linker.ld
 	$(CC) -T $(ARCHDIR)/boot/linker.ld -o $@ $(CFLAGS) $(LINK_LIST)
 	grub-file --is-x86-multiboot2 myos.kernel
 
@@ -77,6 +75,12 @@ $(ARCHDIR)/boot/crtbegin.o $(ARCHDIR)/boot/crtend.o:
 kernel/kernel.o : kernel/kernel.c $(SOURCE_KERNEL_OBJ)
 	$(CC) -MD -c kernel/kernel.c -o kernel/kernel_tmp.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 	$(CC) -nostdlib -r -o kernel/kernel.o kernel/kernel_tmp.o $(SOURCE_KERNEL_OBJ)
+
+arch/i386/gdt/gdt.o:
+	$(MAKE) -C arch/i386/gdt
+
+drivers/keyboard/kbrd.o:
+	$(MAKE) -C drivers/keyboard/
 
 .c.o:
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
@@ -96,6 +100,9 @@ clean:
 	rm -f $(OBJS:.o=.d) *.d */*.d */*/*.d
 	rm -f $(SOURCE_KERNEL_OBJ) *.o */*.o */*/*.o
 	rm -f $(SOURCE_KERNEL_OBJ:.o=.d) *.d */*.d */*/*.d
+	$(MAKE) -C arch/i386/gdt/ clean
+	$(MAKE) -C drivers/keyboard/ clean
+
 
 install: install-headers install-kernel
 
