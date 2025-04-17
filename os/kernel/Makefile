@@ -53,10 +53,8 @@ SOURCE_KERNEL_OBJ=\
 arch/i386/gdt/gdt.o \
 kernel/multiboot/multiboot.o \
 arch/i386/idt/idt.o \
-arch/i386/idt/exeptions.o \
-arch/i386/idt/ports.o \
-arch/i386/idt/pic.o \
 drivers/keyboard/kbrd.o \
+drivers/pic/pic.o
 #arch/i386/idt/keyboard/keyboard_handler.o \
 #arch/i386/idt/keyboard/kbrd_handler.o \
 
@@ -82,6 +80,12 @@ arch/i386/gdt/gdt.o:
 drivers/keyboard/kbrd.o:
 	$(MAKE) -C drivers/keyboard/
 
+drivers/pic/pic.o:
+	$(MAKE) -C drivers/pic/
+
+arch/i386/idt/idt.o:
+	$(MAKE) -C arch/i386/idt/
+
 .c.o:
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
@@ -98,10 +102,10 @@ clean:
 	rm -f myos.kernel
 	rm -f $(OBJS) *.o */*.o */*/*.o
 	rm -f $(OBJS:.o=.d) *.d */*.d */*/*.d
-	rm -f $(SOURCE_KERNEL_OBJ) *.o */*.o */*/*.o
-	rm -f $(SOURCE_KERNEL_OBJ:.o=.d) *.d */*.d */*/*.d
 	$(MAKE) -C arch/i386/gdt/ clean
 	$(MAKE) -C drivers/keyboard/ clean
+	$(MAKE) -C drivers/keyboard/ clean
+	$(MAKE) -C arch/i386/idt clean
 
 
 install: install-headers install-kernel
