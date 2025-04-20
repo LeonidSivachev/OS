@@ -18,3 +18,5 @@ gdt.o : $(GDT_SRC)
 clean:
 	rm -f $(OBJS) *.o */*.o */*/*.o
 	rm -f $(OBJS:.o=.d) *.d */*.d */*/*.d
+
+-include gdt_table.d

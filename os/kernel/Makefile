@@ -55,8 +55,6 @@ kernel/multiboot/multiboot.o \
 arch/i386/idt/idt.o \
 drivers/keyboard/kbrd.o \
 drivers/pic/pic.o
-#arch/i386/idt/keyboard/keyboard_handler.o \
-#arch/i386/idt/keyboard/kbrd_handler.o \
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
