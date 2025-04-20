@@ -12,7 +12,7 @@ pic.o : $(PIC_SRC)
 .c.o:
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
-.asm.o:
+.asm.o: FORCE
 	$(AS) -f elf32 $< -o $@
 
 clean:
