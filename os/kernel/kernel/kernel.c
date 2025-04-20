@@ -14,12 +14,6 @@ void kernel_main(uint32_t magic, uint32_t* multiboot_info_addr) {
     }
     init_gdt();
     init_idt();
-    //printf("finish_main_kernel");
-    // parse_multiboot2_tags(multiboot_info_addr, 1 << MULTIBOOT_TAG_TYPE_MMAP);
-    // volatile a = 0;
-    // volatile int b = 5;
-    // volatile c = b / a;
-    // printf("if exception not happend!\n");
     while (1) {
         __asm__ volatile ("hlt");
     }

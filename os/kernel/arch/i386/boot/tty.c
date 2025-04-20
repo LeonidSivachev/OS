@@ -82,7 +82,6 @@ void terminal_writestring(const char* data) {
 }
 
 void backspace() {
-	terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
 	if ((terminal_row != 0) || (terminal_column != 0)) {
 		if (terminal_column == 0) {
 			--terminal_row;
@@ -91,6 +90,7 @@ void backspace() {
 			--terminal_column;
 		}
 	}
+	terminal_putentryat(' ', terminal_color, terminal_column, terminal_row);
 }
 
 void clear_screen() {
