@@ -74,16 +74,16 @@ kernel/kernel.o : kernel/kernel.c $(SOURCE_KERNEL_OBJ)
 	$(CC) -MD -c kernel/kernel.c -o kernel/kernel_tmp.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 	$(CC) -nostdlib -r -o kernel/kernel.o kernel/kernel_tmp.o $(SOURCE_KERNEL_OBJ)
 
-arch/i386/gdt/gdt.o: $(wildcard arch/i386/gdt/*.*)
+arch/i386/gdt/gdt.o: FORCE
 	$(MAKE) -C arch/i386/gdt
 
-drivers/keyboard/kbrd.o: $(wildcard drivers/keyboard/*.*)
+drivers/keyboard/kbrd.o: FORCE
 	$(MAKE) -C drivers/keyboard/
 
-drivers/pic/pic.o: $(wildcard drivers/pic/*.*)
+drivers/pic/pic.o: FORCE
 	$(MAKE) -C drivers/pic/
 
-arch/i386/idt/idt.o: $(wildcard arch/i386/idt/*.*)
+arch/i386/idt/idt.o: FORCE
 	$(MAKE) -C arch/i386/idt/
 
 .c.o:
@@ -117,6 +117,8 @@ install-headers:
 install-kernel: myos.kernel
 	mkdir -p $(DESTDIR)$(BOOTDIR)
 	cp myos.kernel $(DESTDIR)$(BOOTDIR)
+
+FORCE: ;
 
 -include $(OBJS:.o=.d)
 
