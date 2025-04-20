@@ -1,5 +1,12 @@
 #include "kernel/tmr.h"
+#include "bool.h"
+#include <stdio.h>
 
-void tmr_handler() {
-    printf("timer");
+bool flag = true;
+
+void timer_handler() {
+    if (flag) {
+        printf("timer");
+        flag = false;
+    }
 }

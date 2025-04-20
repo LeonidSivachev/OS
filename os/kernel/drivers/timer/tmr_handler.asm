@@ -1,7 +1,7 @@
-global kbrd_handler
-extern tmr_handler
+global tmr_handler
+extern timer_handler
 
-kbrd_handler:
+tmr_handler:
     pushad
     call tmr_handler
     popad

@@ -1,4 +1,10 @@
-#include <stdint.h>
+#pragma once
+
+#include <bool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "kernel/tmr.h"
 
 typedef struct {
 	uint16_t    isr_low;      // The lower 16 bits of the ISR's address

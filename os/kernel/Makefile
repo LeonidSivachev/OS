@@ -54,7 +54,8 @@ arch/i386/gdt/gdt.o \
 kernel/multiboot/multiboot.o \
 arch/i386/idt/idt.o \
 drivers/keyboard/kbrd.o \
-drivers/pic/pic.o
+drivers/pic/pic.o \
+drivers/timer/timer.o \
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
@@ -77,6 +78,9 @@ arch/i386/gdt/gdt.o: FORCE
 
 drivers/keyboard/kbrd.o: FORCE
 	$(MAKE) -C drivers/keyboard/
+
+drivers/timer/timer.o: FORCE
+	$(MAKE) -C drivers/timer/
 
 drivers/pic/pic.o: FORCE
 	$(MAKE) -C drivers/pic/

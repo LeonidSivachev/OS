@@ -77,13 +77,16 @@ void init_idt() {
     }
     
     PIC_remap(0x20, 0x28);
-    //IRQ_clear_mask(0);
+
     IRQ_clear_mask(1);
-    //idt_set_descriptor(0x20, tmr_handler, 0x8E);
-    //vectors[0x20] = true;
     idt_set_descriptor(0x21, kbrd_handler, 0x8E);
     vectors[0x21] = true;
     init_keyboard();
+
+    // IRQ_clear_mask(0);
+    // idt_set_descriptor(0x20, tmr_handler, 0x8E);
+    // vectors[0x20] = true;
+
     printf("successful_IDT_inicialization!\n");
     __asm__ volatile ("lidt %0" : : "m"(idtr));
     __asm__ volatile ("sti");
