@@ -1,7 +1,7 @@
 KBRD_SRC=kbrd_handler.o \
 kbrd_driver.o \
 
-OBJS_T = kbrd_driver.o
+OBJS = kbrd_driver.o
 
 .PHONY: all clean 
 .SUFFIXES: .o .c .S .asm
@@ -20,3 +20,5 @@ kbrd.o : $(KBRD_SRC)
 clean:
 	rm -f $(OBJS) *.o */*.o */*/*.o
 	rm -f $(OBJS:.o=.d) *.d */*.d */*/*.d
+
+-include kbrd_driver.d

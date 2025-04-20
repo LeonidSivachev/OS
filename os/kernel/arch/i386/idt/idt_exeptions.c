@@ -75,7 +75,7 @@ void init_idt() {
         idt_set_descriptor(vector, isr_stub_table[vector], 0x8E);
         vectors[vector] = true;
     }
-
+    
     PIC_remap(0x20, 0x28);
     //IRQ_clear_mask(0);
     IRQ_clear_mask(1);
