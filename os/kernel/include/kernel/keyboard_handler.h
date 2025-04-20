@@ -8,3 +8,4 @@
 
 void keyboard_handler(void);
 int init_keyboard();
+static void handle_press();

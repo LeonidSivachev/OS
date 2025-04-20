@@ -6,4 +6,3 @@ kbrd_handler:
     call keyboard_handler
     popad
     iret
-    

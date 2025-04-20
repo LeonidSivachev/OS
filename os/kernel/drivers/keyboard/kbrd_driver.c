@@ -21,31 +21,7 @@ static const char kbd_us_scancode_set2[] = {
 
 void keyboard_handler(void) 
 {
-    if (!(inb(KBRD_STATUS_PORT) & 0x01)) {
-        PIC_sendEOI(1);
-        return;
-    }
-
-    uint8_t scancode = inb(KBRD_DATA_PORT);
-
-    //printf("%d", scancode);
-
-    if (scancode == 0xE0 || scancode == 0xF0) {
-        PIC_sendEOI(1);
-        return;
-    }
-
-    if (scancode == 0x66 || scancode == 0x0E) {
-        //printf("backspace!");
-        backspace();
-    } else if (scancode < sizeof(kbd_us_scancode_set2)) {
-        char c = kbd_us_scancode_set2[scancode];
-        if (c != 0) {
-            putchar(c);
-        }
-    }
-
-    PIC_sendEOI(1);
+    handle_press();
 }
 
 
@@ -60,4 +36,27 @@ int init_keyboard()
     }
     printf("keyboard_fault!\n");
     return -1;
+}
+
+static void handle_press() 
+{
+    if (!(inb(KBRD_STATUS_PORT) & 0x01)) {
+        PIC_sendEOI(1);
+        return;
+    }
+    uint8_t scancode = inb(KBRD_DATA_PORT);
+    if (scancode == 0xE0 || scancode == 0xF0) {
+        PIC_sendEOI(1);
+        return;
+    }
+    if (scancode == 0x66 || scancode == 0x0E) {
+        backspace();
+    } else if (scancode < sizeof(kbd_us_scancode_set2)) {
+        char c = kbd_us_scancode_set2[scancode];
+        if (c != 0) {
+            putchar(c);
+        }
+    }
+
+    PIC_sendEOI(1);
 }

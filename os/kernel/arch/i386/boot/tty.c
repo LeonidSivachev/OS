@@ -20,7 +20,7 @@ static uint16_t* terminal_buffer;
 void terminal_initialize(void) {
 	terminal_row = 0;
 	terminal_column = 0;
-	terminal_color = vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLUE);
+	terminal_color = vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLACK);
 	terminal_buffer = VGA_MEMORY;
 	for (size_t y = 0; y < VGA_HEIGHT; y++) {
 		for (size_t x = 0; x < VGA_WIDTH; x++) {
@@ -89,6 +89,14 @@ void backspace() {
 			terminal_column = VGA_WIDTH - 1;
 		} else {
 			--terminal_column;
+		}
+	}
+}
+
+void clear_screen() {
+	for (size_t i = 0; i < VGA_HEIGHT; ++i) {
+		for (size_t j = 0; j < VGA_WIDTH; ++j) {
+			terminal_putentryat(' ', VGA_COLOR_GREEN, j, i);
 		}
 	}
 }

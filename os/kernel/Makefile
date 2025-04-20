@@ -2,7 +2,7 @@ DEFAULT_HOST!=../default-host.sh
 HOST?=DEFAULT_HOST
 HOSTARCH!=../target-triplet-to-arch.sh $(HOST)
 
-#CFLAGS?=-O2 -g 
+
 CFLAGS?=-O0 -g
 CPPFLAGS?=
 LDFLAGS?=
@@ -74,16 +74,16 @@ kernel/kernel.o : kernel/kernel.c $(SOURCE_KERNEL_OBJ)
 	$(CC) -MD -c kernel/kernel.c -o kernel/kernel_tmp.o -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 	$(CC) -nostdlib -r -o kernel/kernel.o kernel/kernel_tmp.o $(SOURCE_KERNEL_OBJ)
 
-arch/i386/gdt/gdt.o:
+arch/i386/gdt/gdt.o: $(wildcard arch/i386/gdt/*.*)
 	$(MAKE) -C arch/i386/gdt
 
-drivers/keyboard/kbrd.o:
+drivers/keyboard/kbrd.o: $(wildcard drivers/keyboard/*.*)
 	$(MAKE) -C drivers/keyboard/
 
-drivers/pic/pic.o:
+drivers/pic/pic.o: $(wildcard drivers/pic/*.*)
 	$(MAKE) -C drivers/pic/
 
-arch/i386/idt/idt.o:
+arch/i386/idt/idt.o: $(wildcard arch/i386/idt/*.*)
 	$(MAKE) -C arch/i386/idt/
 
 .c.o:
@@ -119,3 +119,4 @@ install-kernel: myos.kernel
 	cp myos.kernel $(DESTDIR)$(BOOTDIR)
 
 -include $(OBJS:.o=.d)
+

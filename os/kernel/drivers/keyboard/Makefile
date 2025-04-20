@@ -1,7 +1,9 @@
 KBRD_SRC=kbrd_handler.o \
 kbrd_driver.o \
 
-.PHONY: all, clean 
+OBJS_T = kbrd_driver.o
+
+.PHONY: all clean 
 .SUFFIXES: .o .c .S .asm
 
 all : kbrd.o
