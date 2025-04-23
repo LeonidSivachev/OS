@@ -2,11 +2,12 @@
 #include "bool.h"
 #include <stdio.h>
 
-bool flag = true;
+int counter = 0;
 
 void timer_handler() {
-    if (flag) {
-        printf("timer");
-        flag = false;
+    ++counter;
+    printf("k");
+    if (counter % 36 == 0) {
+        printf("timer!");
     }
 }

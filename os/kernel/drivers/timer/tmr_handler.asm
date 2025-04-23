@@ -3,6 +3,6 @@ extern timer_handler
 
 tmr_handler:
     pushad
-    call tmr_handler
+    call timer_handler
     popad
     iret
