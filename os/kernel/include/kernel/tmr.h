@@ -3,7 +3,7 @@
 
 #include "stdio.h"
 
-void tmr_handler();
+void timer_handler(void);
 
 
 #endif
