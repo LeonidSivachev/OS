@@ -12,13 +12,11 @@ timer.o : $(KBRD_SRC)
 .c.o:
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
-.asm.o: FORCE
-	$(AS) -f elf32 $< -o $@
+.s.o:
+	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
 
 clean:
 	rm -f $(OBJS) *.o */*.o */*/*.o
 	rm -f $(OBJS:.o=.d) *.d */*.d */*/*.d
-
-FORCE: ;
 
 -include tmr.d
