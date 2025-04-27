@@ -13,7 +13,7 @@ timer.o : $(KBRD_SRC)
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
 .s.o:
-	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+	$(CC) -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
 
 clean:
 	rm -f $(OBJS) *.o */*.o */*/*.o

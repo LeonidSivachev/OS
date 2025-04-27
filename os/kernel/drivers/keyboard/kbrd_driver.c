@@ -1,12 +1,10 @@
-#include <stdint.h>
-
-#include "kernel/pic.h"
 #include "kernel/keyboard_handler.h"
-#include "stdio.h"
 
 extern void outb(uint16_t port, uint8_t val);
 extern uint8_t inb(uint16_t port);
 extern void io_wait(void);
+
+bool first_press_flag = true;
 
 static const char kbd_us_scancode_set2[] = {
     0,   0,   '1', '2', '3', '4', '5', '6',  // 00-07
@@ -21,6 +19,10 @@ static const char kbd_us_scancode_set2[] = {
 
 void keyboard_handler(void) 
 {
+    if (first_press_flag && finish_kernel_flag) {
+        first_press_flag = false;
+        clear_screen();
+    }
     handle_press();
 }
 

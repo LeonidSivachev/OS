@@ -9,3 +9,7 @@ void timer_handler(void) {
         printf("timer!");
     }
 }
+
+void sec() {
+    printf("1");
+}

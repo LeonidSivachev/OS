@@ -96,7 +96,7 @@ void backspace() {
 void clear_screen() {
 	for (size_t i = 0; i < VGA_HEIGHT; ++i) {
 		for (size_t j = 0; j < VGA_WIDTH; ++j) {
-			terminal_putentryat(' ', VGA_COLOR_GREEN, j, i);
+			terminal_putentryat(' ', VGA_COLOR_WHITE, j, i);
 		}
 	}
 }
