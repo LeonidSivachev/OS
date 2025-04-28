@@ -6,7 +6,7 @@
 tmr_handler:
     pusha
     incl time
-    cmpl $5, time 
+    cmpl $18, time 
     je second
     jmp finish
 

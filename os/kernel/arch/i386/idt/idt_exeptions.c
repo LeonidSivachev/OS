@@ -49,6 +49,7 @@ static bool vectors[IDT_MAX_DESCRIPTORS];
 extern void* isr_stub_table[];
 extern void kbrd_handler();
 extern void tmr_handler();
+extern void pit_init();
 
 __attribute__((noreturn)) void exception_handler(int32_t num);
 static void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);
@@ -87,6 +88,7 @@ void init_idt() {
     IRQ_clear_mask(0);
     idt_set_descriptor(0x20, tmr_handler, 0x8E);
     vectors[0x20] = true;
+    pit_init();
 
     printf("successful_IDT_inicialization!\n");
     __asm__ volatile ("lidt %0" : : "m"(idtr));

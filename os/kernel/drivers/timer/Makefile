@@ -1,5 +1,6 @@
 KBRD_SRC=tmr.o \
 tmr_handler.o \
+tmr_init.o \
 
 .PHONY: all clean 
 .SUFFIXES: .o .c .S .asm
