@@ -22,6 +22,9 @@ void keyboard_handler(void)
     if (first_press_flag && finish_kernel_flag) {
         first_press_flag = false;
         clear_screen();
+        inb(KBRD_DATA_PORT);
+        PIC_sendEOI(1);
+        return;
     }
     handle_press();
 }

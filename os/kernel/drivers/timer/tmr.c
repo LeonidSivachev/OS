@@ -11,5 +11,6 @@ void timer_handler(void) {
 }
 
 void sec() {
-    printf("1");
+    //printf("1");
+    terminal_second();
 }

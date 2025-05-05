@@ -10,5 +10,7 @@ void terminal_writestring(const char* data);
 void terminal_shift();
 void backspace();
 void clear_screen();
+static void create_time_field();
+void terminal_second();
 
 #endif

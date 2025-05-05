@@ -8,8 +8,15 @@
 
 #include "vga.h"
 
+static uint8_t last_seconds_number = 0;
+static uint8_t first_seconds_number = 0;
+static uint8_t last_minutes_number = 0;
+static uint8_t first_minutes_number = 0;
+static uint8_t last_hours_number = 0;
+static uint8_t first_hours_number = 0;
+
 static const size_t VGA_WIDTH = 80;
-static const size_t VGA_HEIGHT = 25;
+static const size_t VGA_HEIGHT = 23;
 static uint16_t* const VGA_MEMORY = (uint16_t*) 0xB8000;
 
 static size_t terminal_row;
@@ -28,6 +35,7 @@ void terminal_initialize(void) {
 			terminal_buffer[index] = vga_entry(' ', terminal_color);
 		}
 	}
+	create_time_field();
 	printf("successful terminal initialization!\n");
 }
 
@@ -99,4 +107,63 @@ void clear_screen() {
 			terminal_putentryat(' ', VGA_COLOR_WHITE, j, i);
 		}
 	}
+	terminal_row = 0;
+	terminal_column = 0;
+}
+
+static void create_time_field() {
+	for (int i = 0; i < VGA_WIDTH; ++i) {
+		terminal_buffer[VGA_WIDTH * VGA_HEIGHT + i] = vga_entry('*', VGA_COLOR_WHITE);
+	}
+	char* time_string = "time: 00:00:00";
+	for (int i = 0; i < strlen(time_string); ++i) {
+		terminal_putentryat(time_string[i], terminal_color, i, VGA_HEIGHT + 1);
+	}
+}
+
+void terminal_second() {
+	size_t last_seconds_column = 13;
+	size_t first_seconds_column = 12;
+	size_t last_minutes_column = 10;
+	size_t first_minutes_column = 9;
+	size_t last_hours_column = 7;
+	size_t first_hours_column = 6;
+	if (last_seconds_number == 9) {
+		last_seconds_number = 0;
+		if (first_seconds_number == 5) {
+			first_seconds_number = 0;
+			if (last_minutes_number == 9) {
+				last_minutes_number = 0;
+				if (first_minutes_number == 5) {
+					first_minutes_number = 0;
+					if ((last_hours_number == 4) && (first_hours_number == 2)) {
+						create_time_field();
+					} else {
+						if (last_hours_number == 9) {
+							last_hours_number = 0;
+							++first_hours_number;
+						} else {
+							++last_hours_number;
+						}
+					}
+				} else {
+					++first_minutes_number;
+				}
+			} else {
+				++last_minutes_number;
+			}
+		} else {
+			++first_seconds_number;
+		}
+	} else {
+		++last_seconds_number;
+	}
+	terminal_putentryat((char) ('0' + last_seconds_number), terminal_color, last_seconds_column, VGA_HEIGHT + 1);
+	terminal_putentryat((char) ('0' + first_seconds_number), terminal_color, first_seconds_column, VGA_HEIGHT + 1);
+
+	terminal_putentryat((char) ('0' + last_minutes_number), terminal_color, last_minutes_column, VGA_HEIGHT + 1);
+	terminal_putentryat((char) ('0' + first_minutes_number), terminal_color, first_minutes_column, VGA_HEIGHT + 1);
+
+	terminal_putentryat((char) ('0' + last_hours_number), terminal_color, last_hours_column, VGA_HEIGHT + 1);
+	terminal_putentryat((char) ('0' + first_hours_number), terminal_color, first_hours_column, VGA_HEIGHT + 1);
 }
