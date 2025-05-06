@@ -112,7 +112,7 @@ void clear_screen() {
 }
 
 static void create_time_field() {
-	for (int i = 0; i < VGA_WIDTH; ++i) {
+	for (int i = 0; i <= VGA_WIDTH; ++i) {
 		terminal_buffer[VGA_WIDTH * VGA_HEIGHT + i] = vga_entry('*', VGA_COLOR_WHITE);
 	}
 	char* time_string = "time: 00:00:00";
