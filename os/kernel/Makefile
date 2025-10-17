@@ -51,11 +51,11 @@ $(ARCHDIR)/boot/crtn.o \
 
 SOURCE_KERNEL_OBJ=\
 arch/i386/gdt/gdt.o \
-kernel/multiboot/multiboot.o \
 arch/i386/idt/idt.o \
 drivers/keyboard/kbrd.o \
 drivers/pic/pic.o \
 drivers/timer/timer.o \
+# kernel/multiboot/multiboot.o \
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S

@@ -105,7 +105,7 @@ void parse_multiboot2_tags(uint32_t* multiboot_info_addr, int32_t flag) {
                     break;
                 }
                 printf("%d) ", MULTIBOOT_TAG_TYPE_FRAMEBUFFER);
-                struct multiboot_tag_framebuffer* framebuffer_tag_ptr = ((struct multiboot_tag_frambuffer*) tag_ptr);
+                struct multiboot_tag_framebuffer* framebuffer_tag_ptr = ((struct multiboot_tag_framebuffer*) tag_ptr);
                 printf("MULTIBOOT_TAG_TYPE_FRAMEBUFFER\n");
                 printf("framebuffer_addr: %d\n", framebuffer_tag_ptr->framebuffer_addr);
                 printf("framebuffer_type: %d\n", framebuffer_tag_ptr->framebuffer_type);

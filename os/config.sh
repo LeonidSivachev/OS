@@ -6,17 +6,10 @@ export HOST=${HOST:-$(./default-host.sh)}
 
 export COMPILE=${COMPILE:-$(./default-compilerpath.sh)}
 
-#export AR=${HOST}-ar
-#export AS=${HOST}-as
-#export CC=${HOST}-gcc
-
-#export AR=~/SysProject/opt/cross/bin/${HOST}-ar
-#export AS=~/SysProject/opt/cross/bin/${HOST}-as
-#export CC=~/SysProject/opt/cross/bin/${HOST}-gcc
-
-export AR=${COMPILE}/${HOST}-ar
-export AS=${COMPILE}/../../nasm/bin/nasm
-export CC=${COMPILE}/${HOST}-gcc
+export AR=${HOST}-ar
+# export AS=${HOST}-as
+export AS=nasm
+export CC=${HOST}-gcc
 
 export PREFIX=/usr
 export EXEC_PREFIX=$PREFIX
