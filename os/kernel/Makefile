@@ -2,6 +2,7 @@ DEFAULT_HOST!=../default-host.sh
 HOST?=DEFAULT_HOST
 HOSTARCH!=../target-triplet-to-arch.sh $(HOST)
 
+HEADER_FILES := $(shell find . -name '*.h')
 
 CFLAGS?=-O0 -g
 CPPFLAGS?=
@@ -112,9 +113,9 @@ clean:
 
 install: install-headers install-kernel
 
-install-headers:
-	mkdir -p $(DESTDIR)$(INCLUDEDIR)
-	cp -R --preserve=timestamps include/. $(DESTDIR)$(INCLUDEDIR)/.
+install-headers: $(HEADER_FILES)
+	mkdir -p $(DESTDIR)$(INCLUDEDIR)/kernel
+	cp --preserve=timestamps $(HEADER_FILES) $(DESTDIR)$(INCLUDEDIR)/kernel
 
 install-kernel: myos.kernel
 	mkdir -p $(DESTDIR)$(BOOTDIR)
