@@ -1,3 +1,11 @@
+extern keyboard_handler
+
+kbrd_handler:
+    pushad
+    call keyboard_handler
+    popad
+    iret
+
 %macro isr_no_err_stub 1
 isr_stub_%+%1:
     push 0             
@@ -56,3 +64,5 @@ isr_stub_table:
     dd isr_stub_%+i 
 %assign i i+1 
 %endrep
+    dd 0
+    dd kbrd_handler

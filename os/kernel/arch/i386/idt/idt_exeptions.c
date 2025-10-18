@@ -81,7 +81,8 @@ void init_idt() {
     PIC_remap(0x20, 0x28);
 
     IRQ_clear_mask(1);
-    idt_set_descriptor(0x21, kbrd_handler, 0x8E);
+    // idt_set_descriptor(0x21, kbrd_handler, 0x8E);
+    idt_set_descriptor(0x21, isr_stub_table[0x21], 0x8E);
     vectors[0x21] = true;
     init_keyboard();
 

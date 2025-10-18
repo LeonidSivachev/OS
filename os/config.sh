@@ -4,8 +4,6 @@ PROJECTS="libc kernel"
 export MAKE=${MAKE:-make}
 export HOST=${HOST:-$(./default-host.sh)}
 
-export COMPILE=${COMPILE:-$(./default-compilerpath.sh)}
-
 export AR=${HOST}-ar
 # export AS=${HOST}-as
 export AS=nasm
