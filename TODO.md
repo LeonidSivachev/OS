@@ -2,6 +2,7 @@
 
 ## Current tasks
 
+- [ ] **Makefile** - implement normal building system: ability to choose level of optimization, ability to compile in normal mode and debug mode and ect...
 - [ ] **Nasm** - remove all nasm code, we will use only gas.
 - [ ] **Exceptions** - implement normal exception handlers to use debuger.
 - [ ] **Sanitizers** - integrate sanitizers to detect UB.
